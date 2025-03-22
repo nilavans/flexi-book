@@ -32,3 +32,8 @@ class BookingStatus(Enum):
     NOT_AVAILABLE = Status(404, "Not available! Please try again.")
     CLEAR_BOOKING_SUCCESS = Status(200, "All booking cleared.")
     CLEAR_BOOKING_FAILED = Status(400, "Wouldn't clear booking history")
+
+class AdminStatus(Enum):
+    ADDED_SUCCESSFULLY = Status(200, 'Successfully added.')
+    ADD_FAILED = Status(400, 'Failed to add')
+    PROCESS_ABORTED = Status(309, 'Aborted.')

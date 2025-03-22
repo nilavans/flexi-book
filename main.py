@@ -3,7 +3,7 @@ from handlers.user_handler import register, login, change_username, change_passw
 from handlers.slot_handler import book, booking_history, clear_booking_history
 from handlers.admin_handler import add_service, add_vendor, add_slot
 from utils.utils import clear, print_table
-from utils.status import UserStatus, BookingStatus
+from utils.status import UserStatus, BookingStatus, AdminStatus
 from database.connection import initialise_database
 
 
@@ -106,35 +106,51 @@ def menu():
             case 4:
                 print("Goodbye! See you soon..👋")
                 break
-
-            # remove later for dev purpose.
-            case 4:
-                user_menu(2)
             case _:
                 print("Invalid Input!")
                 time.sleep(2)
                 clear()
 
+
 def admin():
     print("🔹 🔹 🔹 ADMIN MENU 🔹 🔹 🔹")
     while True:
-        try: 
-          choice = int(input('What would to like to handle? \n1.Add Service\n2.Add Vendor\n3.Add Slot\n4.Exit\n'))
+        try:
+            choice = int(input("What would to like to handle? \n1.Add Service\n2.Add Vendor\n3.Add Slot\n4.Exit\n"))
         except ValueError:
-          print("Please enter a valid number! ❌")
-          continue
-        
+            print("Please enter a valid number! ❌")
+            continue
+
         match choice:
             case 1:
-                add_service()
+                status = add_service()
+                if status == AdminStatus.ADDED_SUCCESSFULLY:
+                    print(f"{status.value.code} - {status.value.message} 🎉")
+                if status == AdminStatus.ADD_FAILED:
+                    print(f"{status.value.code} - failed to add new service ❌")
+                if status == AdminStatus.PROCESS_ABORTED:
+                    print(f"{status.value.code} - {status.value.message} ❌")
             case 2:
-                add_vendor()
+                status = add_vendor()
+                if status == AdminStatus.ADDED_SUCCESSFULLY:
+                    print(f"{status.value.code} - {status.value.message} 🎉")
+                if status == AdminStatus.ADD_FAILED:
+                    print(f"{status.value.code} - failed to add new vendor ❌")
+                if status == AdminStatus.PROCESS_ABORTED:
+                    print(f"{status.value.code} - {status.value.message} ❌")
             case 3:
-                add_slot()
+                status = add_slot()
+                if status == AdminStatus.ADDED_SUCCESSFULLY:
+                    print(f"{status.value.code} - {status.value.message} 🎉")
+                if status == AdminStatus.ADD_FAILED:
+                    print(f"{status.value.code} - failed to add new slot ❌")
+                if status == AdminStatus.PROCESS_ABORTED:
+                    print(f"{status.value.code} - {status.value.message} ❌")
             case 4:
                 print(print("Goodbye! See you soon..👋"))
                 time.sleep(2)
                 exit()
+
 
 def run():
     # Initialise DB and Create tables if not exists.
